@@ -162,12 +162,12 @@ function Step2() {
   )
 }
 
-function Step3() {
-  return (
-    <div className="h-screen flex flex-col items-center justify-center bg-pink-200 text-center px-4">
-      <h1 className="text-3xl text-pink-700">Verificando tu identidad...</h1>
-      <p className="mt-4 text-gray-700">Revisá tu bandeja de entrada (o tu corazón 💌)</p>
-      <p className="mt-2 text-sm text-gray-600">(Este paso es simbólico... vos sabés que sos vos 💖)</p>
-    </div>
-  )
-}
+// function Step3() {
+//   return (
+//     <div className="h-screen flex flex-col items-center justify-center bg-pink-200 text-center px-4">
+//       <h1 className="text-3xl text-pink-700">Verificando tu identidad...</h1>
+//       <p className="mt-4 text-gray-700">Revisá tu bandeja de entrada (o tu corazón 💌)</p>
+//       <p className="mt-2 text-sm text-gray-600">(Este paso es simbólico... vos sabés que sos vos 💖)</p>
+//     </div>
+//   )
+// }
