@@ -1,103 +1,216 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { AnimatePresence, motion } from 'framer-motion'
+import Image from 'next/image';
+import { useState } from "react";
+
+export default function Page() {
+  const [step, setStep] = useState(0);
+
+  const handleNextStep = () => {
+    setStep((prev) => prev + 1);
+  };
+
+  const renderStep = () => {
+    switch (step) {
+      case 0: return <Home key="step1" onClick={handleNextStep} />;
+      case 1: return <Name key="step2" onClick={handleNextStep} />;
+      case 2: return <Email key="step3" />;
+      default: return <Home key="step1" onClick={handleNextStep} />;
+    }
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+    <div className="relative">
+      <AnimatePresence mode="wait">
+        {renderStep()}
+      </AnimatePresence>
     </div>
+  )
+}
+
+function Home({ onClick }: { onClick: () => void }) {
+  return (
+    <>
+      <motion.div
+        key="step1" // o step2, step3
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -50 }}
+        transition={{ duration: 0.6 }}
+        className="h-screen flex items-center justify-center relative isolate overflow-hidden bg-gray-900"
+      >
+        <Image
+          alt="Decorative Background"
+          src="/images/background-2.jpg"
+          fill
+          className="absolute inset-0 -z-10 size-full object-cover object-bottom backdrop-blur-md"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 -z-10 transform-gpu overflow-hidden backdrop-blur-md"
+        >
+          <div className="h-screen" />
+        </div>
+        <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:flex lg:items-center lg:justify-between lg:px-8">
+          <div className="text-white text-left max-w-3xl">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+              className=" text-4xl sm:text-6xl md:text-7xl font-extrabold uppercase leading-tight"
+            >
+              Bienvenue à denumar!
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.5 }}
+              className="text-base sm:text-lg md:text-xl mt-4 text-gray-300"
+            >
+              Ce n’est pas seulement le site de Denu Mar. C’est un endroit créé avec beaucoup d’amour. Un petit coin qui existe parce que tu existes.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.5, delay: 0.5 }}
+              className="flex items-center gap-x-6 mt-10 lg:shrink-0"
+            >
+              <button
+                className="bg-white text-black font-bold py-4 px-8 rounded-2xl shadow-lg hover:bg-gray-200 transition text-base sm:text-lg"
+                onClick={onClick}
+              >
+                Découvrir
+              </button>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+    </>
   );
+}
+
+function Name({ onClick }: { onClick: () => void }) {
+  const [name, setName] = useState('')
+  const [error, setError] = useState('')
+
+  const handleSubmit = () => {
+    if (name.toLowerCase().includes('eliane denise marfetan') || name.toLowerCase().includes('denu')) {
+      onClick()
+    } else {
+      setError('Mmm... no sé si este sitio es para vos 🤔')
+    }
+  }
+
+  return (
+    <>
+      <>
+        <motion.div
+          key="step2"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -50 }}
+          transition={{ duration: 0.6 }}
+          className="h-screen flex items-center justify-center relative isolate overflow-hidden bg-gray-900"
+        >
+          <Image
+            alt="Decorative Background"
+            src="/images/background.jpg"
+            fill
+            className="absolute inset-0 -z-10 size-full object-cover object-bottom backdrop-blur-md"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 -z-10 transform-gpu overflow-hidden backdrop-blur-md"
+          >
+            <div className="h-screen" />
+          </div>
+          <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:flex lg:items-center lg:justify-between lg:px-8 md:space-x-16">
+            <div className="text-white text-left max-w-2xl">
+              <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold uppercase leading-tight" >
+                Comment tu t&apos;appelles ?
+              </h1>
+
+              <p className="text-base sm:text-lg md:text-xl mt-4 text-gray-400">
+                S’il te plaît, entre ton nom complet.
+              </p>
+
+              <div className="mt-10 space-y-4">
+                <div className="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Escribí tu nombre"
+                    className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+                  />
+                </div>
+                {error && <p className="mt-4 text-gray-200">{error}</p>}
+                <button
+                  className="bg-white text-black font-bold py-4 px-8 rounded-2xl shadow-lg hover:bg-gray-200 transition text-base sm:text-lg"
+                  onClick={handleSubmit}
+                >
+                  Confirmer
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </motion.div>
+      </>
+    </>
+  );
+}
+
+function Email() {
+
+  return (
+    <>
+      <>
+        <motion.div
+          key="step3"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -50 }}
+          transition={{ duration: 0.6 }}
+          className="h-screen flex items-center justify-center relative isolate overflow-hidden bg-gray-900"
+        >
+          <Image
+            alt="Decorative Background"
+            src="/images/background-3.jpg"
+            fill
+            className="absolute inset-0 -z-10 size-full "
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 -z-10 transform-gpu overflow-hidden"
+          >
+            <div className="h-screen" />
+          </div>
+          <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:flex lg:items-center lg:justify-between lg:px-8 md:space-x-16">
+            <div className="text-white text-left max-w-2xl">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
+                className=" text-4xl sm:text-4xl md:text-5xl font-extrabold leading-tight"
+              >
+                Mmm... on va devoir vérifier ton identité
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.5 }}
+                className="text-base sm:text-lg md:text-xl mt-4 text-gray-300"
+              >
+                Je t’ai envoyé un mail pour valider ton identité, s’il te plaît vérifie ta boîte mail 💌.
+              </motion.p>
+            </div>
+          </div>
+        </motion.div>
+      </>
+    </>
+  )
 }
