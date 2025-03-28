@@ -1,5 +1,6 @@
 "use client"
 
+import { sendEmail } from '@/actions/emailActions';
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image';
 import { useState } from "react";
@@ -94,8 +95,9 @@ function Name({ onClick }: { onClick: () => void }) {
   const [name, setName] = useState('')
   const [error, setError] = useState('')
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (name.toLowerCase().includes('eliane denise marfetan') || name.toLowerCase().includes('denu')) {
+      await sendEmail();
       onClick()
     } else {
       setError('Mmm... no sé si este sitio es para vos 🤔')
@@ -131,7 +133,7 @@ function Name({ onClick }: { onClick: () => void }) {
                 Comment tu t&apos;appelles ?
               </h1>
 
-              <p className="text-base sm:text-lg md:text-xl mt-4 text-gray-400">
+              <p className="text-base sm:text-lg md:text-xl mt-4 text-white">
                 S’il te plaît, entre ton nom complet.
               </p>
 
@@ -144,10 +146,10 @@ function Name({ onClick }: { onClick: () => void }) {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Escribí tu nombre"
-                    className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+                    className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 sm:text-md md:text-lg placeholder:text-black focus:outline focus:outline-0 focus:border-yellow-500 sm:text-sm/6"
                   />
                 </div>
-                {error && <p className="mt-4 text-gray-200">{error}</p>}
+                <p className="mt-4 text-base sm:text-lg md:text-xl mt-4 text-white">{error ? error : ''}</p>
                 <button
                   className="bg-white text-black font-bold py-4 px-8 rounded-2xl shadow-lg hover:bg-gray-200 transition text-base sm:text-lg"
                   onClick={handleSubmit}
@@ -165,7 +167,6 @@ function Name({ onClick }: { onClick: () => void }) {
 }
 
 function Email() {
-
   return (
     <>
       <>
