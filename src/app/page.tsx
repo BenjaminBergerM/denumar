@@ -59,7 +59,7 @@ function Home({ onClick }: { onClick: () => void }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
-              className=" text-4xl sm:text-6xl md:text-7xl font-extrabold uppercase leading-tight"
+              className="text-4xl sm:text-6xl md:text-7xl font-extrabold uppercase leading-tight"
             >
               Bienvenue à denumar!
             </motion.h1>

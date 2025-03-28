@@ -1,13 +1,39 @@
 "use client"
 
+import { sendConfirmation } from "@/actions/emailActions";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function Validate() {
   const [step, setStep] = useState(0);
 
+  useEffect(() => {
+    const savedStep = localStorage.getItem("denumar_step");
+    if (savedStep) {
+      const parsedStep = parseInt(savedStep);
+      if (!isNaN(parsedStep) && parsedStep >= 0 && parsedStep <= 4) {
+        setStep(parsedStep);
+      } else {
+        localStorage.setItem("denumar_step", "0");
+        setStep(0);
+      }
+    }
+  }, []);
+
   const handleNextStep = () => {
-    setStep((prev) => prev + 1);
+    setStep((prev) => {
+      const next = prev + 1;
+      localStorage.setItem("denumar_step", next.toString());
+      return next;
+    });
+  };
+
+  const handlePrevious = () => {
+    setStep((prev) => {
+      const back = Math.max(prev - 1, 0);
+      localStorage.setItem("denumar_step", back.toString());
+      return back;
+    });
   };
 
   const renderStep = () => {
@@ -29,9 +55,23 @@ export default function Validate() {
 
   return (
     <div className="">
+      {step > 0 && (<BackButton onClick={handlePrevious} />)}
       {renderStep()}
     </div>
   )
+}
+
+function BackButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="absolute top-4 left-4 z-20 text-white bg-black/30 backdrop-blur px-4 py-2 rounded-full hover:bg-black/50"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+      </svg>
+    </button>
+  );
 }
 
 function Step0({ onClick }: { onClick: () => void }) {
@@ -48,7 +88,7 @@ function Step0({ onClick }: { onClick: () => void }) {
             <p className="mt-6 text-base/7 text-gray-200">
               Lo único que tengo claro es que me encantaría seguir construyendo más momentos así… con vos.
             </p>
-            <div className="mt-10 flex">
+            <div className="flex mt-10">
               <button
                 className="bg-white text-black font-bold py-4 px-8 rounded-2xl shadow-lg hover:bg-gray-200 transition text-base sm:text-lg"
                 onClick={onClick}
@@ -106,7 +146,6 @@ function Step0({ onClick }: { onClick: () => void }) {
 function Step1({ onClick }: { onClick: () => void }) {
   const [days, setDays] = useState(0)
 
-
   useEffect(() => {
     const knownSince = new Date('2025-02-06')
     const now = new Date()
@@ -122,7 +161,7 @@ function Step1({ onClick }: { onClick: () => void }) {
       <p className="mt-4 text-xl/8 text-gray-200 max-w-md">
         Desde entonces, cada mirada, cada charla, cada abrazo... suma magia a mi vida.
       </p>
-      <div className="mt-10 flex">
+      <div className="flex mt-10">
         <button
           className="bg-white text-black font-bold py-4 px-8 rounded-2xl shadow-lg hover:bg-gray-200 transition text-base sm:text-lg"
           onClick={onClick}
@@ -137,13 +176,15 @@ function Step1({ onClick }: { onClick: () => void }) {
 function Step4({ onClick }: { onClick: () => void }) {
   return (
     <div className="h-screen flex flex-col items-center justify-center  text-center px-4">
-      <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6 text-white">Identité validée 😎</h1>
-      <button
-        className="bg-white text-black font-bold py-4 px-8 rounded-2xl shadow-lg hover:bg-gray-200 transition text-base sm:text-lg"
-        onClick={onClick}
-      >
-        Seguí leyendo
-      </button>
+      <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white">Identité validée 😎</h1>
+      <div className="flex mt-10">
+        <button
+          className="bg-white text-black font-bold py-4 px-8 rounded-2xl shadow-lg hover:bg-gray-200 transition text-base sm:text-lg"
+          onClick={onClick}
+        >
+          Seguí leyendo
+        </button>
+      </div>
     </div>
   )
 }
@@ -156,6 +197,12 @@ function Step2({ onClick }: { onClick: () => void }) {
     return () => clearTimeout(timeout)
   }, [])
 
+  const onConfirmation = async () => {
+    await sendConfirmation()
+    onClick()
+  }
+
+
   return (
     <div className="h-screen flex flex-col items-center justify-center text-center px-4">
       {!showQuestion ? (
@@ -164,16 +211,16 @@ function Step2({ onClick }: { onClick: () => void }) {
         </div>
       ) : (
         <>
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6 text-white">Denu, ¿querés ser mi novia?</h1>
-          <div className="flex gap-4">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white">Denu, ¿querés ser mi novia?</h1>
+          <div className="flex mt-10 gap-4">
             <button
-              onClick={onClick}
+              onClick={onConfirmation}
               className="bg-white text-black font-bold py-4 px-8 rounded-2xl shadow-lg hover:bg-gray-200 transition text-base sm:text-lg"
             >
               Oui 🥹
             </button>
             <button
-              onClick={onClick}
+              onClick={onConfirmation}
               className="bg-white text-black font-bold py-4 px-8 rounded-2xl shadow-lg hover:bg-gray-200 transition text-base sm:text-lg"
             >
               Bien sûr que oui 😍
@@ -195,16 +242,12 @@ function Step3() {
 
   return (
     <div className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="rounded-xl w-full max-w-3xl shadow-lg z-10"
-      >
-        <source src="/videos/nosotros.mp4" type="video/mp4" />
-        Tu navigateur ne supporte pas les vidéos HTML5.
-      </video>
+      <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white">
+        Merci d’avoir dit oui
+      </h1>
+      <p className="mt-4 text-xl text-white font-semibold z-10">
+        Je t’aime. Te amo mucho! ❤️
+      </p>
 
       {showHearts && (
         <div className="absolute inset-0 z-0 animate-pulse pointer-events-none">
@@ -222,10 +265,6 @@ function Step3() {
           ))}
         </div>
       )}
-
-      <p className="mt-10 text-xl text-white font-semibold z-10">
-        Je savais que tu allais dire oui 🌸 Merci d’être toi. Je t’aime.
-      </p>
     </div>
   );
 }

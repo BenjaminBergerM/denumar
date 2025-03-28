@@ -13,3 +13,22 @@ export async function sendEmail() {
     html: validationEmail,
   });
 }
+
+export async function sendConfirmation() {
+  await resend.emails.send({
+    from: 'Benjamin Berger <benjamin@mushroom-tech.com>',
+    to: ['benjaminbergermaurette@gmail.com'],
+    subject: 'Merci pour ton OUI',
+    html: `
+      <div style="font-family: sans-serif; font-size: 16px; color: #444;">
+        <h2>Merci d’avoir dit oui ❤️</h2>
+        <p>Ce petit projet a été fait avec tout mon cœur.</p>
+        <p>J’espère que chaque étape t’a fait sourire.</p>
+        <p>Et surtout… que ce soit le début de bien d’autres moments ensemble 💫</p>
+        <br />
+        <p>Avec tout mon amour,</p>
+        <p>Benja Berger</p>
+      </div>
+    `
+  });
+};
