@@ -158,8 +158,8 @@ function Step1({ onClick }: { onClick: () => void }) {
     <div className="h-screen flex flex-col items-center justify-center  text-center px-4">
       <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white">¿Sabés hace cuánto nos conocemos?</h1>
       <p className="font-bold mt-4 text-3xl sm:text-5xl md:text-6xl text-blue-200 mt-2">{days} días</p>
-      <p className="mt-4 text-xl/8 text-gray-200 max-w-md">
-        Desde entonces, cada mirada, cada charla, cada abrazo... suma magia a mi vida.
+      <p className="mt-4 text-xl/8 text-gray-200 max-w-4xl">
+        Gracias por haber aparecido mágicamente en el cumpleaños de mi primo. Desde ese día, cada mirada, cada charla y cada abrazo llenan mi vida de amor.
       </p>
       <div className="flex mt-10">
         <button

@@ -8,7 +8,7 @@ const resend = new Resend('re_Nsj6f1nB_Jv67WQtw6nMDERMWe1uGUYzh');
 export async function sendEmail() {
   await resend.emails.send({
     from: 'Benjamin Berger <benjamin@mushroom-tech.com>',
-    to: ['benjaminbergermaurette@gmail.com'],
+    to: ['infodenumar@gmail.com'],
     subject: '🌸 Une petite vérification… juste pour toi',
     html: validationEmail,
   });
@@ -17,7 +17,7 @@ export async function sendEmail() {
 export async function sendConfirmation() {
   await resend.emails.send({
     from: 'Benjamin Berger <benjamin@mushroom-tech.com>',
-    to: ['benjaminbergermaurette@gmail.com'],
+    to: ['infodenumar@gmail.com'],
     subject: 'Merci pour ton OUI',
     html: `
       <div style="font-family: sans-serif; font-size: 16px; color: #444;">
