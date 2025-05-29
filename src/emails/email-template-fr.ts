@@ -54,7 +54,7 @@ export const validationEmail = `
 
     <a
       class="button"
-      href="https://denumar.com/validate"
+      href="https://denumar.com/proposal/validate"
     >
       Valider mon identité
     </a>
