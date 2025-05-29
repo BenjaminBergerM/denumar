@@ -1,5 +1,16 @@
+import { useRouter } from "next/router"
 import MoviePage from "./client"
 
-export default function Page({ params }: { params: { id: string } }) {
-  return <MoviePage id={params.id} />
+
+export default function Page() {
+  const router = useRouter()
+  const { id } = router.query
+
+  if (typeof id !== "string") {
+    return <div>Loading...</div>
+  }
+
+  return (
+    <MoviePage id={id} />
+  )
 }
